@@ -22,6 +22,7 @@ public class UdpClient {
             BufferedReader br = new BufferedReader(isr);
             System.out.println("Source Address: " + socket.getRemoteSocketAddress().toString());
             byte[] packet = new byte[24];
+            long avgTime = 0;
             packet[0] = 0x45;
 			packet[1] = 0;
 			packet[2] = (byte) (24 >>> 8);
@@ -160,9 +161,10 @@ public class UdpClient {
 				for (int l = 0; l < 3; l++) {
 					System.out.printf("%x",is.read());
 				}
-				
-				System.out.println("\nRound Trip Time: " + (endTime - startTime) + "ms\n");
+				avgTime += endTime - startTime;
+				System.out.println("\nRound Trip Time: " + (endTime - startTime) + " ms\n");
 		}
+			System.out.println("Average Trip Time: " + (avgTime / 12) + " ms");
 		}
 		catch (Exception e) {
 			System.out.println("Unable to connect to server.");
